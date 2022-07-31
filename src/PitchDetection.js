@@ -6,7 +6,7 @@ let audioContext;
 let pitch;
 let stream;
 let listen = false;
-function PitchDetection() {
+function PitchDetection(props) {
   const [freq, setFreq] = useState(0);
   const [isSetUp, setIsSetUp] = useState(false);
 
@@ -60,7 +60,10 @@ function PitchDetection() {
   return (
     <React.Fragment>
       <div className={classes.container}>
-        <TunerCircle frequency={freq} />
+        <TunerCircle
+          setTuneDirection={props.setTuneDirection}
+          frequency={freq}
+        />
       </div>
       <span>
         <button className={classes.button} onClick={startListening}>

@@ -5,6 +5,8 @@ function TunerCircle(props) {
   let note;
   let note_accuracy;
   let prev_note_acc = "good";
+  let tune_up_or_down;
+  let up_or_down;
   notes.set(164, "E");
   notes.set(110, "A");
   notes.set(220, "A");
@@ -21,8 +23,10 @@ function TunerCircle(props) {
     console.log(note_accuracy);
     let cents = Infinity;
     let curr_diff;
+
     notes.forEach((key, value) => {
       // Calculate cents value for each frequency representing a specific note within the notes map.
+      up_or_down = 1200 * (Math.log(value / frequency) / Math.log(2));
       curr_diff = Math.abs(1200 * (Math.log(value / frequency) / Math.log(2)));
 
       //
@@ -61,13 +65,19 @@ function TunerCircle(props) {
     if (cents < 5) {
       note_accuracy = "perfect";
       prev_note_acc = note_accuracy;
+      tune_up_or_down = "perfect";
     }
     console.log(prev_note_acc);
   }
 
   detectNote(props.frequency);
-
-  return <div className={note_accuracy}>{note}</div>;
+  tune_up_or_down = up_or_down > 0 ? "tune down" : "tune up";
+  props.setTuneDirection(tune_up_or_down);
+  return (
+    <div>
+      <div className={note_accuracy}>{note}</div>
+    </div>
+  );
 }
 
 export default TunerCircle;
